@@ -26,6 +26,14 @@ namespace PeopleWebApi.Interfaces
 
         public async Task<bool> DeleteAsync(People entity)
         {
+            foreach (var del in entity.PeopleAdreses)
+            {
+                _context.Entry(del).State = EntityState.Deleted;
+            }
+            foreach (var del in entity.PeopleDocuments)
+            {
+                _context.Entry(del).State = EntityState.Deleted;
+            }
             _context.People.Remove(entity);
             return (await _context.SaveChangesAsync()) > 0;
         }
@@ -117,28 +125,13 @@ namespace PeopleWebApi.Interfaces
             entityToUpdate.LastName = entity.LastName;
             entityToUpdate.BirthDate = entity.BirthDate;
 
-            /* var deletedAdreses = entityToUpdate.PeopleAdreses.Except(entity.PeopleAdreses).ToList();
-             var addedAdreses = entity.PeopleAdreses.Except(entityToUpdate.PeopleAdreses).ToList();
+            entityToUpdate.PeopleAdreses.ToList().ForEach(item => _context.PeopleAdreses.Remove(item));
+            entity.PeopleAdreses.ToList().ForEach(item => _context.Entry(item).State = EntityState.Added);
 
-             deletedAdreses.ForEach(adrToDelete =>
-                 entityToUpdate.PeopleAdreses.Remove(
-                     entityToUpdate.PeopleAdreses
-                         .First(b => b. == adrToDelete.BookId)));*/
+            entityToUpdate.PeopleDocuments.ToList().ForEach(item => _context.PeopleDocuments.Remove(item));
+            entity.PeopleDocuments.ToList().ForEach(item => _context.Entry(item).State = EntityState.Added);
 
-            foreach (var delAdr in entityToUpdate.PeopleAdreses)
-            {
-                _context.PeopleAdreses.Remove(delAdr);
-            }
-
-            foreach (var addAdr in entityToUpdate.PeopleAdreses)
-            {
-                _context.Entry(addAdr).State = EntityState.Added;
-            }
-
-            if (await _context.SaveChangesAsync() > 0)
-                return true;
-            else
-                return false;
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

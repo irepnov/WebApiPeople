@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/AdresType
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             var list = await _dataRepository.GetAllAsync();
@@ -27,6 +29,8 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/AdresType/2
         [HttpGet("{id}", Name = "GetAdresType")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             var item = await _dataRepository.GetDtoAsync(id);
@@ -38,6 +42,10 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/AdresType
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]//формат запроса
+        [Produces(MediaTypeNames.Application.Json)]//фортам ответа
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] AdresType adresType)
         {
             if (adresType is null)
@@ -52,6 +60,10 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/AdresType/3
         [HttpPut("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]//формат запроса
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(int id, [FromBody] AdresType adresType)
         {
             if (adresType == null)
@@ -72,6 +84,8 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/AdresType/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             var it = await _dataRepository.GetAsync(id);
