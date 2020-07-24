@@ -12,7 +12,8 @@ namespace PeopleWebApi.Models
 
         public long Id { get; set; }
         public string Name { get; set; }
-
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<UserRoles> UserRoles { get; set; }
     }
 }

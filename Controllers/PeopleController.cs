@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
@@ -21,6 +23,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/People
         [HttpGet]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает реестр граждан", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
@@ -33,6 +36,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/People/2
         [HttpGet("{id}", Name = "GetPeople")]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает гражданина по идентификатору", Description = "Требуется Id", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -47,6 +51,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/People
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Добавляет нового гражданина", Description = "Требуется описание", Tags = new[] { "Реестр граждан" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
@@ -66,6 +71,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/People/3
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Изменяет информацию по гражданину", Description = "Требуется описание и Id", Tags = new[] { "Реестр граждан" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -91,6 +97,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Удаляет гражданина", Description = "Требуется Id", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

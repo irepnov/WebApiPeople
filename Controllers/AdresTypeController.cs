@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
@@ -21,6 +23,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/AdresType
         [HttpGet]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает список типов адресной информации", Tags = new[] { "Справочник типа адресной информации" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
@@ -35,6 +38,7 @@ namespace PeopleWebApi.Controllers
         /// <returns></returns>
         // GET: api/AdresType/2
         [HttpGet("{id}", Name = "GetAdresType")]
+        [AllowAnonymous]
         [SwaggerOperation(Tags = new[] { "Справочник типа адресной информации" } )]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,6 +53,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/AdresType
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Добавляет новый тип адресной информации", Description = "Требуется описание типа", Tags = new[] { "Справочник типа адресной информации" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
@@ -68,6 +73,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/AdresType/3
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Изменяет новый тип адресной информации", Description = "Требуется описание типа и Id", Tags = new[] { "Справочник типа адресной информации" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,6 +99,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/AdresType/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Удаляет тип адресной информации", Description = "Требуется Id", Tags = new[] { "Справочник типа адресной информации" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

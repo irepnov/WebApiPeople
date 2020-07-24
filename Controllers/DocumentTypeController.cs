@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
@@ -21,6 +23,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/DocumentType
         [HttpGet]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает справочник типов документов", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
@@ -31,6 +34,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/DocumentType/2
         [HttpGet("{id}", Name = "GetDocumentType")]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,6 +49,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/DocumentType
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Добавляет тип документа", Description = "Требуется описание и Id", Tags = new[] { "Справочник типов документов" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
@@ -64,6 +69,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/DocumentType/3
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Изменяет тип документа", Description = "Требуется описание и Id", Tags = new[] { "Справочник типов документов" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,6 +95,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/DocumentType/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "1,2,3")]
         [SwaggerOperation(Summary = "Удаляет тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
