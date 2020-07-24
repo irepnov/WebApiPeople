@@ -79,7 +79,7 @@ namespace PeopleWebApi
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Standard Authorization header using the Bearer scheme. Example: \"Bearer {token}\""                    
+                    Description = "Стандартный заголовок Autorization с использованием схемы Bearer. Пример: \"Bearer {token}\""                    
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
