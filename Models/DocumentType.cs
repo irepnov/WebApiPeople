@@ -11,8 +11,10 @@ namespace PeopleWebApi.Models
         }
 
         public long Id { get; set; }
+        /// <example>тестовый тип документа</example>
         public string Name { get; set; }
-
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<PeopleDocuments> PeopleDocuments { get; set; }
     }
 }

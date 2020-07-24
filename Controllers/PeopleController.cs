@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
 using PeopleWebApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PeopleWebApi.Controllers
 {
@@ -20,6 +21,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/People
         [HttpGet]
+        [SwaggerOperation(Summary = "Возвращает реестр граждан", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
@@ -31,6 +33,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/People/2
         [HttpGet("{id}", Name = "GetPeople")]
+        [SwaggerOperation(Summary = "Возвращает гражданина по идентификатору", Description = "Требуется Id", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -44,6 +47,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/People
         [HttpPost]
+        [SwaggerOperation(Summary = "Добавляет нового гражданина", Description = "Требуется описание", Tags = new[] { "Реестр граждан" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -62,6 +66,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/People/3
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Изменяет информацию по гражданину", Description = "Требуется описание и Id", Tags = new[] { "Реестр граждан" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -86,6 +91,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/People/5
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Удаляет гражданина", Description = "Требуется Id", Tags = new[] { "Реестр граждан" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)

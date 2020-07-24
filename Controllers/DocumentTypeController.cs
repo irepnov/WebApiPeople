@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
 using PeopleWebApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PeopleWebApi.Controllers
 {
@@ -20,6 +21,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/DocumentType
         [HttpGet]
+        [SwaggerOperation(Summary = "Возвращает справочник типов документов", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
@@ -29,6 +31,7 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/DocumentType/2
         [HttpGet("{id}", Name = "GetDocumentType")]
+        [SwaggerOperation(Summary = "Возвращает тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -42,6 +45,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/DocumentType
         [HttpPost]
+        [SwaggerOperation(Summary = "Добавляет тип документа", Description = "Требуется описание и Id", Tags = new[] { "Справочник типов документов" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -60,6 +64,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/DocumentType/3
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Изменяет тип документа", Description = "Требуется описание и Id", Tags = new[] { "Справочник типов документов" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -84,6 +89,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/DocumentType/5
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Удаляет тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleWebApi.Interfaces;
 using PeopleWebApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PeopleWebApi.Controllers
 {
@@ -20,15 +21,21 @@ namespace PeopleWebApi.Controllers
 
         // GET: api/AdresType
         [HttpGet]
+        [SwaggerOperation(Summary = "Возвращает список типов адресной информации", Tags = new[] { "Справочник типа адресной информации" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             var list = await _dataRepository.GetAllAsync();
             return Ok(list);
         }
-
+        /// <summary>
+        /// Возвращает тип адресной информации по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификтор</param>
+        /// <returns></returns>
         // GET: api/AdresType/2
         [HttpGet("{id}", Name = "GetAdresType")]
+        [SwaggerOperation(Tags = new[] { "Справочник типа адресной информации" } )]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -42,6 +49,7 @@ namespace PeopleWebApi.Controllers
 
         // POST: api/AdresType
         [HttpPost]
+        [SwaggerOperation(Summary = "Добавляет новый тип адресной информации", Description = "Требуется описание типа", Tags = new[] { "Справочник типа адресной информации" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -60,6 +68,7 @@ namespace PeopleWebApi.Controllers
 
         // PUT: api/AdresType/3
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Изменяет новый тип адресной информации", Description = "Требуется описание типа и Id", Tags = new[] { "Справочник типа адресной информации" })]
         [Consumes(MediaTypeNames.Application.Json)]//формат запроса
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -84,6 +93,7 @@ namespace PeopleWebApi.Controllers
 
         // DELETE: api/AdresType/5
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Удаляет тип адресной информации", Description = "Требуется Id", Tags = new[] { "Справочник типа адресной информации" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
