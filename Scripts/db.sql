@@ -44,7 +44,7 @@ CREATE TABLE PeopleDocuments
 	 Number       NVARCHAR(20) NOT NULL, 
      PRIMARY KEY (PeopleId, DocumentTypeId, Number), 
      FOREIGN KEY (PeopleId) REFERENCES People(Id),
-	 FOREIGN KEY (DocumentTypeId) REFERENCES DocumentType(Id), 
+	 FOREIGN KEY (DocumentTypeId) REFERENCES DocumentType(Id)
   ) 
  
 GO 
@@ -57,16 +57,63 @@ CREATE TABLE PeopleAdreses
      Adres       NVARCHAR(200) NOT NULL, 
      PRIMARY KEY (PeopleId, AdresTypeId, Adres), 
      FOREIGN KEY (PeopleId) REFERENCES People(Id),
-	 FOREIGN KEY (AdresTypeId) REFERENCES AdresType(Id), 
+	 FOREIGN KEY (AdresTypeId) REFERENCES AdresType(Id)
   ) 
  
 GO 
+
+CREATE TABLE [User]
+  ( 
+     Id   BIGINT IDENTITY(1, 1) NOT NULL, 
+     Login NVARCHAR(50) NOT NULL, 
+	 Password NVARCHAR(50) NOT NULL,
+     PRIMARY KEY (Id) 
+  ) 
  
+GO 
+
+CREATE TABLE [Role] 
+  ( 
+     Id   BIGINT IDENTITY(1, 1) NOT NULL, 
+     Name NVARCHAR(50) NOT NULL,
+     PRIMARY KEY (Id) 
+  ) 
+ 
+GO 
+
+CREATE TABLE UserRoles 
+  ( 
+     UserId BIGINT NOT NULL, 
+     RoleId BIGINT NOT NULL, 
+     PRIMARY KEY (UserId, RoleId), 
+     FOREIGN KEY (UserId) REFERENCES [User](Id),
+	 FOREIGN KEY (RoleId) REFERENCES [Role](Id)
+  )   
+
 
 
 SET DATEFORMAT DMY
 
 GO
+
+INSERT INTO [User]
+VALUES
+('User1', '1'),
+('user2', '2'),
+('admin', '3')
+
+INSERT INTO [Role]
+VALUES
+('Role1'),
+('Role2'),
+('Admin')
+
+INSERT INTO UserRoles
+VALUES
+(1,1),
+(1,2),
+(2,2),
+(3,3)
 
 INSERT INTO DocumentType
 VALUES
@@ -117,6 +164,6 @@ Install-Package Microsoft.EntityFrameworkCore.Tools
 Install-Package Microsoft.EntityFrameworkCore.SqlServer
 
 
-Scaffold-DbContext "Server=10.0.1.156;Database=TempRepnovIB_2;User Id=sa;Password=VVal2787;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Scaffold-DbContext "Server=10.0.1.156;Database=TempRepnovIB_2;User Id=sa;Password=VVal2787;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -f
 
 */
