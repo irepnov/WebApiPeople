@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace PeopleWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class DocumentTypeController : ControllerBase
     {
@@ -25,8 +25,8 @@ namespace PeopleWebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает справочник типов документов", Tags = new[] { "Справочник типов документов" })]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get()
+        [ProducesResponseType(typeof(IEnumerable<DocumentType>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<DocumentType>>> GetAsync()
         {
             var list = await _dataRepository.GetAllAsync();
             return Ok(list);
@@ -36,9 +36,9 @@ namespace PeopleWebApi.Controllers
         [HttpGet("{id}", Name = "GetDocumentType")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Возвращает тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DocumentType), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<DocumentType>> GetAsync(int id)
         {
             var item = await _dataRepository.GetDtoAsync(id);
             if (item == null)
@@ -55,7 +55,7 @@ namespace PeopleWebApi.Controllers
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] DocumentType DocumentType)
+        public async Task<ActionResult> PostAsync([FromBody] DocumentType DocumentType)
         {
             if (DocumentType is null)
                 return BadRequest("Объект пуст.");
@@ -75,7 +75,7 @@ namespace PeopleWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] DocumentType DocumentType)
+        public async Task<ActionResult> PutAsync(int id, [FromBody] DocumentType DocumentType)
         {
             if (DocumentType == null)
                 return BadRequest("Объект пуст.");
@@ -99,7 +99,7 @@ namespace PeopleWebApi.Controllers
         [SwaggerOperation(Summary = "Удаляет тип документа", Description = "Требуется Id", Tags = new[] { "Справочник типов документов" })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             var it = await _dataRepository.GetAsync(id);
             if (it == null)

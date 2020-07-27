@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using EventBus.RabbitMQ.Standard.Configuration;
+using EventBus.RabbitMQ.Standard.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PeopleWebApi.Interfaces;
 using PeopleWebApi.Middleware;
+using PeopleWebApi.Middlewares;
 using PeopleWebApi.Models;
 
 namespace PeopleWebApi
@@ -33,7 +36,7 @@ namespace PeopleWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TempRepnovIB_2Context>(opts => opts.UseSqlServer(Configuration["ConnectionString:TempRepnovIB_2"]));
+            services.AddDbContext<TempRepnovIB_2Context>(opts => opts.UseSqlServer(Configuration["ConnectionString:TempRepnovIB_2"]).EnableSensitiveDataLogging());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -108,6 +111,7 @@ namespace PeopleWebApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRequestGUID();
+            app.UseMiddleware<SerilogRequestLoggingMiddleware>();
             app.UseRequestLogging("swagger");
             app.UseSwagger();
 

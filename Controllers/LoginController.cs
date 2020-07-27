@@ -17,7 +17,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace PeopleWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     #pragma warning disable CS1591 // Отсутствует комментарий XML для открытого видимого типа или члена
     public class LoginController : ControllerBase
@@ -32,7 +32,7 @@ namespace PeopleWebApi.Controllers
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetToken([FromBody] User user)
+        public ActionResult GetToken([FromBody] User user)
         {
             ClaimsIdentity identity = GetIdentity(user);
             if (identity == null)
@@ -78,7 +78,7 @@ namespace PeopleWebApi.Controllers
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetShortInfoUser()
+        public ActionResult GetShortInfoUser()
         {
             return Ok($"Ваш логин: {User.Identity.Name}");
         }
@@ -91,7 +91,7 @@ namespace PeopleWebApi.Controllers
         [Produces(MediaTypeNames.Application.Json)]//фортам ответа
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetFullInfoUser()
+        public ActionResult GetFullInfoUser()
         {
             return Ok(User.Identity);
         }

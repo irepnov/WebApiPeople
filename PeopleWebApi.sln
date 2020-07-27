@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleWebApi", "PeopleWebApi.csproj", "{CE37E559-9E97-429A-8C5F-725602374601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleWebApi", "PeopleWebApi.csproj", "{CE37E559-9E97-429A-8C5F-725602374601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestProject", "..\NUnitTestProject\NUnitTestProject.csproj", "{7AD9D371-F7FD-4075-8227-1EFE0E135F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestProject", "..\NUnitTestProject\NUnitTestProject.csproj", "{7AD9D371-F7FD-4075-8227-1EFE0E135F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,11 +25,12 @@ namespace PeopleWebApi.Models
         public virtual DbSet<UserRoles> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {            
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=10.0.1.156;Database=TempRepnovIB_2;User Id=sa;Password=VVal2787;");
+                optionsBuilder.EnableSensitiveDataLogging();
             }
         }
 
