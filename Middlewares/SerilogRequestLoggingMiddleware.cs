@@ -22,7 +22,6 @@ namespace PeopleWebApi.Middlewares
 
         public async Task Invoke(HttpContext httpContext)
         {
-            if (httpContext == null) throw new ArgumentNullException(nameof(httpContext));
             LogContext.PushProperty("UserName", httpContext.User.Identity.Name);
             string requestBody = "";
             httpContext.Request.EnableBuffering();
